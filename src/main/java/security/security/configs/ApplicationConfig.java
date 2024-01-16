@@ -2,6 +2,7 @@ package security.security.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
+import security.security.auditing.ApplicationAuditAware;
 import security.security.repositories.UserRepository;
 
 @Configuration
@@ -35,6 +37,11 @@ public class ApplicationConfig {
     authProvider.setUserDetailsService(userDetailsService());
     authProvider.setPasswordEncoder(passwordEncoder());
     return authProvider;
+  }
+
+  @Bean
+  public AuditorAware<Integer> auditorAware() {
+    return new ApplicationAuditAware();
   }
 
   @Bean
