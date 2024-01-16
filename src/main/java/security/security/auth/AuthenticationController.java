@@ -30,6 +30,17 @@ public class AuthenticationController {
     return ResponseEntity.ok(service.authenticate(request));
   }
 
+  /**
+   *
+   * `@PostMapping`: Method handle HTTP POST
+   *
+   * HttpServletRequest request: Đối tượng chứa thông tin về yêu cầu
+   * HTTP, giúp truy cập các thông tin như headers, parameters,
+   * cookies, v.v.
+   *
+   * HttpServletResponse response: Đối tượng cho phép phương thức xử lý gửi phản
+   * hồi HTTP trả về client
+   */
   @PostMapping("/refresh-token")
   public void refreshToken(
       HttpServletRequest request,
@@ -37,3 +48,9 @@ public class AuthenticationController {
     service.refreshToken(request, response);
   }
 }
+
+/**
+ * Tóm lại, phương thức refreshToken trong lớp AuthenticationController được sử
+ * dụng để xử lý yêu cầu "refresh token" và gọi đến phương thức tương ứng trong
+ * đối tượng service để thực hiện quá trình làm mới token.
+ */

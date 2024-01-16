@@ -54,9 +54,10 @@ public class AuthenticationService {
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
-            request.getEmaill(),
+            request.getEmail(),
             request.getPassword()));
-    var user = repository.findByEmail(request.getEmaill())
+    var user = repository
+        .findByEmail(request.getEmail())
         .orElseThrow();
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
@@ -93,17 +94,27 @@ public class AuthenticationService {
   public void refreshToken(
       HttpServletRequest request,
       HttpServletResponse response) throws IOException {
+
     final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
     final String refreshToken;
     final String userEmail;
+
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
       return;
     }
+
     refreshToken = authHeader.substring(7);
     userEmail = jwtService.extractUsername(refreshToken);
+
+    System.out.println(authHeader);
+    System.out.println(refreshToken);
+    System.out.println(userEmail);
+
     if (userEmail != null) {
-      var user = this.repository.findByEmail(userEmail)
+      var user = this.repository
+          .findByEmail(userEmail)
           .orElseThrow();
+
       if (jwtService.isTokenValid(refreshToken, user)) {
         var accessToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
