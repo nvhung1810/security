@@ -33,8 +33,8 @@ public class User implements UserDetails {
   private Integer id;
   private String first_name;
   private String last_name;
-  private String email;
-  private String password;
+  private String customer_staff_email;
+  private String login_password;
 
   @Enumerated(EnumType.STRING)
   private Role role;
@@ -46,12 +46,12 @@ public class User implements UserDetails {
 
   @Override
   public String getUsername() {
-    return email;
+    return customer_staff_email;
   }
 
   @Override
   public String getPassword() {
-    return password;
+    return login_password;
   }
 
   @Override
